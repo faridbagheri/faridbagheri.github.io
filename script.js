@@ -33,7 +33,7 @@
     document.head.appendChild(favicon);
   }
   favicon.type = 'image/png';
-  favicon.href = 'assets/pngtree-ai-icon-png-image_15382528.png?v=20260830-cv';
+  favicon.href = 'assets/pngtree-ai-icon-png-image_15382528.png?v=20260830-cv2';
 
   const titles = {
     about: '👤 About Me',
@@ -52,11 +52,18 @@
   }
 
   // Synchronize visible portfolio content with the latest CV uploaded as
-  // assets/Farid-Bagheri-CV.pdf. Keeping this in JS means future design edits to
-  // the Windows 95 HTML can remain independent from small CV wording updates.
+  // assets/Farid-Bagheri-CV.pdf while keeping the Windows 95 desktop design.
   function syncCvContent() {
     const about = getWindow('about');
     if (about) {
+      // Give the About window enough room to show the full summary, info grid and buttons.
+      about.style.setProperty('--left', '7%');
+      about.style.setProperty('--top', '3%');
+      about.style.setProperty('--width', '1080px');
+      about.style.setProperty('--height', '720px');
+      const aboutContent = about.querySelector('.window-content');
+      if (aboutContent) aboutContent.classList.add('scrollable');
+
       const summary = about.querySelector('.about-copy > p:not(.win-subtitle)');
       if (summary) summary.innerHTML = 'PhD AI engineer specializing in <strong>LLMs, agentic AI, RAG and knowledge-enhanced systems</strong>. Experienced in designing multi-model LLM pipelines, auditable evaluation workflows, semantic retrieval systems and knowledge-graph-based AI using Python, PyTorch, Hugging Face and LangChain. Built and evaluated scalable AI systems for real-world data and engineering-oriented workflows, combining research rigor with prior manufacturing quality and data-analysis experience.';
       const info = about.querySelectorAll('.info-grid > div');
@@ -113,11 +120,15 @@
     if (resume) {
       const education = resume.querySelector('.retro-groupbox');
       if (education) education.innerHTML = '<span class="legend">Education</span><p><strong>PhD, Mathematics & Computer Science</strong><br>University of Cagliari · 2022–Feb 2026</p><p>M.Sc. Industrial Engineering · Dokuz Eylül University · 2019–2022</p>';
+
+      // Keep only two clear actions: formatted web CV and direct PDF download.
       const buttons = resume.querySelector('.button-row');
-      if (buttons) buttons.innerHTML = '<a class="win-button primary-win" href="assets/Farid-Bagheri-CV.pdf" target="_blank" rel="noopener">Open PDF</a><a class="win-button" href="assets/Farid-Bagheri-CV.pdf" download="Farid-Bagheri-CV.pdf">Download PDF</a><a class="win-button" href="cv.html">PDF Viewer</a>';
+      if (buttons) buttons.innerHTML = '<a class="win-button primary-win" href="cv.html">View</a><a class="win-button" href="assets/Farid-Bagheri-CV.pdf" download="Farid-Bagheri-CV.pdf">Download</a>';
+
+      // Remove the right-side “Updated CV” status text.
       const statusParts = resume.querySelectorAll('.statusbar > span');
-      if (statusParts[0]) statusParts[0].textContent = 'assets/Farid-Bagheri-CV.pdf';
-      if (statusParts[1]) statusParts[1].textContent = 'Updated CV';
+      if (statusParts[0]) statusParts[0].textContent = 'Farid_Bagheri.cv';
+      if (statusParts[1]) statusParts[1].remove();
     }
 
     const skills = getWindow('skills');
