@@ -57,7 +57,7 @@
     const about = getWindow('about');
     if (about) {
       // About window size and scroll behavior.
-      about.style.setProperty('--left', '7%');
+      about.style.setProperty('--left', '19%');
       about.style.setProperty('--top', '3%');
       about.style.setProperty('--width', '950px');
       about.style.setProperty('--height', '650px');
