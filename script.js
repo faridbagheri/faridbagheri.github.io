@@ -56,13 +56,19 @@
   function syncCvContent() {
     const about = getWindow('about');
     if (about) {
-      // Give the About window enough room to show the full summary, info grid and buttons.
+      // About window size and scroll behavior.
       about.style.setProperty('--left', '7%');
       about.style.setProperty('--top', '3%');
-      about.style.setProperty('--width', '1080px');
-      about.style.setProperty('--height', '720px');
+      about.style.setProperty('--width', '950px');
+      about.style.setProperty('--height', '650px');
       const aboutContent = about.querySelector('.window-content');
-      if (aboutContent) aboutContent.classList.add('scrollable');
+      if (aboutContent) {
+        aboutContent.classList.add('scrollable');
+        aboutContent.style.overflowY = 'scroll';
+        aboutContent.style.overflowX = 'hidden';
+        aboutContent.style.scrollbarColor = '#c0c0c0 #dfdfdf';
+        aboutContent.style.scrollbarGutter = 'stable';
+      }
 
       const summary = about.querySelector('.about-copy > p:not(.win-subtitle)');
       if (summary) summary.innerHTML = 'PhD AI engineer specializing in <strong>LLMs, agentic AI, RAG and knowledge-enhanced systems</strong>. Experienced in designing multi-model LLM pipelines, auditable evaluation workflows, semantic retrieval systems and knowledge-graph-based AI using Python, PyTorch, Hugging Face and LangChain. Built and evaluated scalable AI systems for real-world data and engineering-oriented workflows, combining research rigor with prior manufacturing quality and data-analysis experience.';
