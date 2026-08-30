@@ -12,6 +12,26 @@
   const runError = document.getElementById('run-error');
   let topZ = 30;
 
+  // Use the classic Windows 95 logo supplied by Farid in the Start button.
+  const windowsMark = document.querySelector('.windows-mark');
+  if (windowsMark) {
+    const startLogo = document.createElement('img');
+    startLogo.src = 'assets/win95-start-logo.png';
+    startLogo.alt = '';
+    startLogo.width = 28;
+    startLogo.height = 23;
+    startLogo.style.cssText = 'display:block;width:28px;height:23px;object-fit:contain;image-rendering:auto;';
+    windowsMark.replaceChildren(startLogo);
+    windowsMark.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;width:29px;height:24px;flex:0 0 29px;transform:none;';
+  }
+
+  // Explicit AI-themed browser-tab icon. The query string prevents stale favicon caches.
+  const favicon = document.createElement('link');
+  favicon.rel = 'icon';
+  favicon.type = 'image/x-icon';
+  favicon.href = 'favicon.ico?v=20260830-ai';
+  document.head.appendChild(favicon);
+
   const titles = {
     about: '👤 About Me',
     experience: '💼 Experience',
