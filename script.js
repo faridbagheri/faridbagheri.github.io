@@ -12,7 +12,7 @@
   const runError = document.getElementById('run-error');
   let topZ = 30;
 
-  // Use the classic Windows 95 logo supplied by Farid in the Start button.
+  // Classic Windows 95 Start logo.
   const windowsMark = document.querySelector('.windows-mark');
   if (windowsMark) {
     const startLogo = document.createElement('img');
@@ -25,12 +25,15 @@
     windowsMark.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;width:29px;height:24px;flex:0 0 29px;transform:none;';
   }
 
-  // Explicit AI-themed browser-tab icon. The query string prevents stale favicon caches.
-  const favicon = document.createElement('link');
-  favicon.rel = 'icon';
-  favicon.type = 'image/x-icon';
-  favicon.href = 'favicon.ico?v=20260830-ai';
-  document.head.appendChild(favicon);
+  // Keep the browser-tab icon aligned with the AI icon stored in /assets.
+  let favicon = document.querySelector('link[rel="icon"]');
+  if (!favicon) {
+    favicon = document.createElement('link');
+    favicon.rel = 'icon';
+    document.head.appendChild(favicon);
+  }
+  favicon.type = 'image/png';
+  favicon.href = 'assets/pngtree-ai-icon-png-image_15382528.png?v=20260830-cv';
 
   const titles = {
     about: '👤 About Me',
@@ -47,6 +50,88 @@
   function getWindow(name) {
     return document.querySelector(`[data-window="${name}"]`);
   }
+
+  // Synchronize visible portfolio content with the latest CV uploaded as
+  // assets/Farid-Bagheri-CV.pdf. Keeping this in JS means future design edits to
+  // the Windows 95 HTML can remain independent from small CV wording updates.
+  function syncCvContent() {
+    const about = getWindow('about');
+    if (about) {
+      const summary = about.querySelector('.about-copy > p:not(.win-subtitle)');
+      if (summary) summary.innerHTML = 'PhD AI engineer specializing in <strong>LLMs, agentic AI, RAG and knowledge-enhanced systems</strong>. Experienced in designing multi-model LLM pipelines, auditable evaluation workflows, semantic retrieval systems and knowledge-graph-based AI using Python, PyTorch, Hugging Face and LangChain. Built and evaluated scalable AI systems for real-world data and engineering-oriented workflows, combining research rigor with prior manufacturing quality and data-analysis experience.';
+      const info = about.querySelectorAll('.info-grid > div');
+      if (info[3]) info[3].innerHTML = '<span class="field-label">Evaluation</span><span>LLM Evaluation · LLM-as-a-Judge</span>';
+    }
+
+    const experience = getWindow('experience');
+    if (experience) {
+      const list = experience.querySelector('.classic-list');
+      if (list) list.innerHTML = `
+        <article class="classic-item"><div class="classic-date">2025 – Present</div><div><h3>AI & Prompt Engineer | LLM Evaluation — Mercor</h3><p>Evaluate and compare LLM outputs for factual accuracy, relevance, coherence and instruction compliance. Identify hallucinations, reasoning/response-quality failures and gaps between expected and generated outputs. Refine prompts and provide structured evaluation feedback to improve model reliability and response quality.</p></div></article>
+        <article class="classic-item"><div class="classic-date">2023 – Present</div><div><h3>Research Associate | LLMs, Agents & Knowledge-Enhanced AI — LIPN, Sorbonne Paris Nord University</h3><p>Design modular agentic-AI workflows with multi-model producer/judge architectures, structured JSON outputs, deterministic post-processing and auditable intermediate artifacts. Develop knowledge-enhanced retrieval and semantic-matching workflows using LLMs, knowledge graphs, SBERT, TF-IDF, graph embeddings and hybrid reranking/similarity methods. Benchmark multiple LLM families for output quality, robustness and downstream retrieval performance using automated and task-specific evaluation metrics. Build reproducible experiments on a real-world corpus of <strong>663 submissions and 524 expert profiles</strong> sourced from linked structured and unstructured data.</p></div></article>
+        <article class="classic-item"><div class="classic-date">2022 – Feb 2026</div><div><h3>PhD Researcher — Artificial Intelligence — University of Cagliari</h3><p>Developed scalable AI pipelines combining LLMs, knowledge graphs, NLP, semantic retrieval and recommender systems for explainable expert matching. Fine-tuned T5 on the SciTLDR scientific summarization dataset and integrated generated summaries into downstream LLM and retrieval experiments. Implemented research workflows in Python with PyTorch, Hugging Face, Ollama/OpenAI APIs, NetworkX/Node2Vec and reproducible JSON-based data pipelines.</p></div></article>
+        <article class="classic-item"><div class="classic-date">2024 – Present</div><div><h3>Graduate Lecturer — Sorbonne Paris Nord University</h3><p>Teach NLP, Knowledge Graphs, Machine Learning and Deep Learning courses.</p></div></article>
+        <article class="classic-item"><div class="classic-date">2019 – 2022</div><div><h3>Quality Control Engineer & Data Analyst — Sanem Plastik Company</h3><p>Analyzed production-line quality data to identify performance issues, estimate production costs and quantify potential savings. Collaborated with manufacturing and management teams to improve quality, production and design standards.</p></div></article>
+        <article class="classic-item"><div class="classic-date">2009 – 2013</div><div><h3>Earlier Experience — Industrial Engineering & Marketing, Iran</h3><p>Earlier roles across industrial engineering and marketing.</p></div></article>`;
+      const status = experience.querySelector('.statusbar > span:first-child');
+      if (status) status.textContent = '6 experience entries';
+    }
+
+    const research = getWindow('research');
+    if (research) {
+      const hero = research.querySelector('.research-image-panel img');
+      if (hero) hero.src = 'assets/ai-hero.png';
+      const groups = research.querySelectorAll('.retro-groupbox');
+      if (groups[0]) groups[0].innerHTML = '<span class="legend">Core research</span><ul><li>Large Language Models, prompt engineering and LLM evaluation</li><li>Retrieval-Augmented Generation (RAG) and vector databases</li><li>AI agents with LangChain / LangGraph workflows</li><li>Multi-model producer/judge architectures and LLM-as-a-Judge</li><li>Knowledge Graphs, graph embeddings and semantic retrieval</li><li>Semantic matching, reranking and task-specific evaluation</li></ul>';
+      if (groups[1]) groups[1].innerHTML = '<span class="legend">Evaluation</span><p>Output quality · robustness · downstream retrieval performance · factuality · hallucination analysis · instruction compliance · MRR · MAP · Precision@K</p>';
+      const status = research.querySelector('.statusbar > span:last-child');
+      if (status) status.textContent = 'Python · PyTorch · Hugging Face · LangChain · LangGraph';
+    }
+
+    const publications = getWindow('publications');
+    if (publications) {
+      publications.querySelectorAll('.pub-row').forEach(row => {
+        const title = row.querySelector('strong');
+        const venue = row.querySelector('small');
+        if (title && venue && title.textContent.includes('Leveraging Knowledge Graphs and LLMs')) {
+          venue.textContent = 'Intelligent Information Systems (Springer)';
+        }
+      });
+      // Existing DOI links are intentionally preserved.
+    }
+
+    const projects = getWindow('projects');
+    if (projects) {
+      const projectCards = projects.querySelectorAll('.project-folder');
+      if (projectCards[1]) {
+        const p = projectCards[1].querySelector('p');
+        if (p) p.textContent = 'Agentic-AI workflows with multi-model producer/judge architectures, structured JSON outputs, deterministic post-processing and auditable intermediate artifacts.';
+      }
+    }
+
+    const resume = getWindow('resume');
+    if (resume) {
+      const education = resume.querySelector('.retro-groupbox');
+      if (education) education.innerHTML = '<span class="legend">Education</span><p><strong>PhD, Mathematics & Computer Science</strong><br>University of Cagliari · 2022–Feb 2026</p><p>M.Sc. Industrial Engineering · Dokuz Eylül University · 2019–2022</p>';
+      const buttons = resume.querySelector('.button-row');
+      if (buttons) buttons.innerHTML = '<a class="win-button primary-win" href="assets/Farid-Bagheri-CV.pdf" target="_blank" rel="noopener">Open PDF</a><a class="win-button" href="assets/Farid-Bagheri-CV.pdf" download="Farid-Bagheri-CV.pdf">Download PDF</a><a class="win-button" href="cv.html">PDF Viewer</a>';
+      const statusParts = resume.querySelectorAll('.statusbar > span');
+      if (statusParts[0]) statusParts[0].textContent = 'assets/Farid-Bagheri-CV.pdf';
+      if (statusParts[1]) statusParts[1].textContent = 'Updated CV';
+    }
+
+    const skills = getWindow('skills');
+    if (skills) {
+      const groups = skills.querySelectorAll('.retro-groupbox');
+      if (groups[0]) groups[0].innerHTML = '<span class="legend">GenAI & Agents</span><div class="skill-chips"><span>LLMs</span><span>RAG</span><span>AI Agents</span><span>LangChain</span><span>LangGraph</span><span>LLM-as-a-Judge</span><span>Prompt Engineering</span><span>LLM Evaluation</span><span>Multi-Model Pipelines</span><span>LoRA / PEFT familiarity</span></div>';
+      if (groups[1]) groups[1].innerHTML = '<span class="legend">ML / NLP</span><div class="skill-chips"><span>PyTorch</span><span>Hugging Face Transformers</span><span>scikit-learn</span><span>SBERT</span><span>T5</span><span>NLTK</span></div>';
+      if (groups[2]) groups[2].innerHTML = '<span class="legend">Knowledge & Retrieval</span><div class="skill-chips"><span>Knowledge Graphs</span><span>Vector Databases (ChromaDB)</span><span>Embeddings</span><span>Semantic Search</span><span>Reranking</span><span>NetworkX</span><span>Node2Vec</span><span>OpenIE</span><span>GLiNER</span><span>CSO Classifier</span><span>TF-IDF</span></div>';
+      if (groups[3]) groups[3].innerHTML = '<span class="legend">Engineering</span><div class="skill-chips"><span>Python</span><span>FastAPI</span><span>Flask</span><span>REST APIs</span><span>OpenAI API</span><span>Ollama</span><span>OpenRouter</span><span>SQL</span><span>JSON</span><span>Git</span><span>CI/CD</span></div>';
+      if (groups[4]) groups[4].innerHTML = '<span class="legend">Languages</span><p>English — Fluent · Turkish — Fluent · Azeri — Native · Persian — Native · French — Basic · Italian — Basic</p>';
+    }
+  }
+
+  syncCvContent();
 
   function focusWindow(win) {
     if (!win) return;
