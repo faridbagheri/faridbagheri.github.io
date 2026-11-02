@@ -52,7 +52,7 @@
   }
 
   // Synchronize visible portfolio content with the latest CV uploaded as
-  // assets/Farid-Bagheri-CV.pdf while keeping the Windows 95 desktop design.
+  // assets/farid-bagheri-CV.pdf while keeping the Windows 95 desktop design.
   function syncCvContent() {
     const about = getWindow('about');
     if (about) {
@@ -130,7 +130,7 @@
 
       // Keep only two clear actions: formatted web CV and direct PDF download.
       const buttons = resume.querySelector('.button-row');
-      if (buttons) buttons.innerHTML = '<a class="win-button primary-win" href="cv.html">View</a><a class="win-button" href="assets/Farid-Bagheri-CV.pdf" download="Farid-Bagheri-CV.pdf">Download</a>';
+      if (buttons) buttons.innerHTML = '<a class="win-button primary-win" href="cv.html">View</a><a class="win-button" href="assets/farid-bagheri-CV.pdf" download="Farid-Bagheri-CV.pdf">Download</a>';
 
       // Remove the right-side “Updated CV” status text.
       const statusParts = resume.querySelectorAll('.statusbar > span');
